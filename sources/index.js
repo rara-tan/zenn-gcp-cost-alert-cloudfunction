@@ -6,15 +6,15 @@ const CHANNEL = process.env.SLACK_CHANNEL || '';
 exports.notifySlack = async pubsubEvent => {
   const pubsubAttrs = pubsubEvent.attributes;
   const pubsubData = Buffer.from(pubsubEvent.data, 'base64').toString();
-  const budgetNotificationText = `${JSON.stringify(
-    pubsubAttrs
-  )}, ${pubsubData}`;
 
-  await slack.chat.postMessage({
-    token: BOT_ACCESS_TOKEN,
-    channel: CHANNEL,
-    text: budgetNotificationText,
-  });
-
-  return 'Slack notification sent successfully';
+  if (pubsubData.costAmount > pubsubData.budgetAmount) {
+    await slack.chat.postMessage({
+      token: BOT_ACCESS_TOKEN,
+      channel: CHANNEL,
+      text: `The cost of ${pubsubData.budgetDisplayName} has exceeded the budget`,
+    });
+    return 'Slack notification sent successfully';
+  } else {
+    return 'The cost is within the budget range';
+  }
 };
