@@ -1,0 +1,13 @@
+{
+  "name": "cloud-functions-billing",
+  "private": "true",
+  "version": "0.0.1",
+  "description": "Examples of integrating Cloud Functions with billing",
+  "main": "index.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "slack": "^11.0.1"
+  }
+}
